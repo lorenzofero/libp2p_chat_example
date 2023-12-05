@@ -5,8 +5,11 @@ use std::time::Duration;
 use std::{collections::hash_map::DefaultHasher, error::Error};
 use tokio::io;
 
-/// A network behaviour specifies the behaviour of the nodes
-/// in the peer-to-peer network.
+/// The `NetworkBehaviour` trait specifies the behaviour of the nodes
+/// in the peer-to-peer network in all the situation/events that might
+/// occur. Take a look at the source code such trait for more.
+///
+/// Here, both `gossipsub` and `mdns` implement the `NetworkBehaviour` trait.
 ///
 /// We create a custom network behaviour that combines:
 /// * Gossipsub: a type of publish-subscribe (to topic) protocol
@@ -33,7 +36,7 @@ pub fn build_swarm() -> Result<Swarm<MyBehaviour>, Box<dyn Error>> {
     // with_new_identity creates a new identity for the
     // local node generating a peer id
     let swarm = libp2p::SwarmBuilder::with_new_identity()
-        // specifies the asynchronous runtime engine
+        // specifies the asynchronous runtime
         .with_tokio()
         // Next up we need to construct a transport. Each transport in libp2p provides encrypted streams.
         // E.g. combining TCP to establish connections, TLS to encrypt these connections and Yamux
